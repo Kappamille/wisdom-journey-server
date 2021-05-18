@@ -1,6 +1,7 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -12,5 +13,7 @@ generator client {
 
 model Question {
   id     Int     @default(autoincrement()) @id
+  question_id Int
+  lang String
   text    String
 }

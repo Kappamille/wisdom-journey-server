@@ -15,18 +15,20 @@ import csv from "csv-parser";
 import { QuestionResolver } from "./src/resolvers/QuestionResolver";
 
 const prisma = new PrismaClient();
-const results: string[] = [];
+/*const results: string[] = [];
 
 fs.createReadStream(__dirname + "/resources/base_questions.csv")
   .pipe(csv())
   .on("data", (data) => results.push(data))
   .on("end", () => {
     //console.log(results); // see results
-  });
+  });*/
 
 async function main() {
   //const allQuestions = await prisma.question.findMany();
   //console.log(allQuestions);
+
+  console.log("Appollo playground started on localhost:4000.");
 
   const schema = await buildSchema({
     resolvers: [QuestionResolver],
