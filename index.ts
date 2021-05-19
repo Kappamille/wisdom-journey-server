@@ -12,9 +12,10 @@ import {
 } from "type-graphql";
 import fs from "fs";
 import csv from "csv-parser";
-import { QuestionResolver } from "./src/resolvers/QuestionResolver";
+import { ctx, QuestionResolver } from "./src/resolvers/QuestionResolver";
+//import { context } from "./context";
 
-const prisma = new PrismaClient();
+//const prisma = new PrismaClient();
 /*const results: string[] = [];
 
 fs.createReadStream(__dirname + "/resources/base_questions.csv")
@@ -28,14 +29,15 @@ async function main() {
   //const allQuestions = await prisma.question.findMany();
   //console.log(allQuestions);
 
-  console.log("Appollo playground started on localhost:4000.");
-
   const schema = await buildSchema({
     resolvers: [QuestionResolver],
   });
 
-  const server = new ApolloServer({ schema });
-
+  const server = new ApolloServer({
+    schema: schema,
+    context: ctx,
+  });
+  console.log("🚀 Server ready at: https://localhost:4000");
   return server.listen(4000);
 }
 
