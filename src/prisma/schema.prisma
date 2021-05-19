@@ -12,8 +12,16 @@ generator client {
 }
 
 model Question {
-  id     Int     @default(autoincrement()) @id
-  question_id Int
-  lang String
-  text    String
+    id Int     @default(autoincrement()) @id
+//    created_at Date @notnull
+    translations QuestionText[]
 }
+
+model QuestionText {
+    id Int     @default(autoincrement()) @id
+    lang String
+    translation String
+    question Question @relation(fields: [questionId], references: [id]) // (2) ORM -- typescript
+    questionId Int // (1) BDD => colonne + index + references
+}
+
