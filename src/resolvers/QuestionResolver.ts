@@ -7,6 +7,7 @@ import {
   ID,
   Int,
   FieldResolver,
+  Root,
   Ctx,
 } from "type-graphql";
 import { prisma, PrismaClient } from "@prisma/client";
@@ -44,9 +45,12 @@ class QuestionManager {
     });
   }
 
-  /*translations(): Promise<QuestionTranslation[]> {
-    return this.prisma.questionText.findMany();
-  }*/
+  //
+  async translation(q: Question, lang: string): Promise<QuestionTranslation> {
+    return await this.prisma.questionText.findFirst({
+      where: { id: q.id, lang: lang },
+    });
+  }
 }
 
 interface Context {
@@ -70,10 +74,14 @@ export class QuestionResolver {
     return await ctx.qm.allQuestions();
   }
 
-  /*@Query(() => [Question])
-  async translations(@Ctx() ctx: Context): Promise<QuestionTranslation[]> {
-    return await ctx.qm.translations();
-  }*/
+  @Query(() => QuestionTranslation)
+  async translations(
+    @Ctx() ctx: Context,
+    @Root() q: Question,
+    @Arg("lang") lang: string
+  ): Promise<QuestionTranslation> {
+    return await ctx.qm.translation(q, lang);
+  }
 }
 
 /*   q: Question, @Arg('lang') lang: String
